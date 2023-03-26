@@ -1,14 +1,13 @@
 #include "Preproc.h"
-#include "Array.h"
-#include "Vector.h"
-//#include "EntityIterator.h"
 
-using HTM::Array;
+#include "Vector.h"
 using HTM::Vector;
-//using HTM::EntityIterator;
+
 
 int main()
 {
 	TS_LOG("Hey");
+	Vector<float> Vec1;
+	Vec1.PushBack(86.f);
 	return 0;
 }

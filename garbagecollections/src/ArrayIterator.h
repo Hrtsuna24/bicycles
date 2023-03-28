@@ -3,7 +3,6 @@
 
 namespace HTM
 {
-
 	template<typename Array>
 	class ArrayIterator : public EntityIterator<Array>
 	{
@@ -12,24 +11,9 @@ namespace HTM
 		using PtrType = const VType*;
 		using RefType = const VType&;
 
-		virtual bool operator==(const EntityIterator* b) override{ return this->_m_Ptr == b->_m_Ptr; };
-		virtual bool operator!=(const EntityIterator* b) override { return !(this == *b); };
-
+		ArrayIterator(PtrType m_Ptr) : EntityIterator<Array>(m_Ptr) { TS_LOG("ArrayIterator(PtrType m_Ptr)"); };
+		~ArrayIterator() { TS_LOG("~ArrayIterator()"); }
 	private:
-
+		
 	};
-	//template<typename Array>
-	//class ArrayIterator : public EntityIterator<Array>
-	//{
-	////	EntityIterator-> class PType m_ptr;
-
-	//public:
-	//	//declare own "words" for fucking lardge types" O_o
-	//	/*using VType = typename Array::CollType;
-	//	using PtrType = VType*;
-	//	using RefType = VType&;*/
-	////	////
-	//	ArrayIterator(PType ptr) : EntityIterator(ptr) {};
-	//	virtual ~ArrayIterator() {};
-	//};
 }

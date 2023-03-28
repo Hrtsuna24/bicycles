@@ -70,11 +70,11 @@ namespace HTM
 	template<typename CollType, size_t S>
 	ArrayIterator< Array<CollType, S> > Array<CollType, S>::begin()
 	{
-		return Iterator(this->_AR_storage);
+		return Iterator(_AR_storage);
 	}
 	template<typename CollType, size_t S>
 	ArrayIterator< Array<CollType, S> > Array<CollType, S>::end()
 	{
-		return Iterator(this->_AR_storage + S);
+		return Iterator(_AR_storage + S);
 	}
 }

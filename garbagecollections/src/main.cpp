@@ -28,8 +28,12 @@ int main()
 			)
 		{
 			float x = *iter;
-			//float addres = iter;
+			
 		}
 	}
+
+
+	const int& arr = 5;
+	int& arr2 = (int&)5;
 	return 0;
 }

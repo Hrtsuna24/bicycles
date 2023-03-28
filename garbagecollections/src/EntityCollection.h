@@ -17,12 +17,12 @@ namespace HTM
 
 		//Size for all coll
 		virtual size_t Size() const { return this->_EC_size; };
-		virtual EntityCollection& operator[](size_t index) = 0;
-		virtual const EntityCollection& operator[](size_t index) const = 0;
+		virtual CollType& operator[](size_t index) = 0;
+		virtual const CollType& operator[](size_t index) const = 0;
 
 		//for iterator:
-		virtual Iterator begin() = 0;
-		virtual Iterator end() = 0;
+		/*virtual Iterator begin() = 0;
+		virtual Iterator end() = 0;*/
 		
 	private:
 		size_t _EC_size;

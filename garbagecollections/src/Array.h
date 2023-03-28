@@ -10,13 +10,23 @@ namespace HTM
 		CollType _AR_storage[S];
 
 	public:
-		using VType;
+		using VType = CollType;
 		using Iterator = ArrayIterator< Array<CollType, S> >;
 		//////////////////////
 
 		virtual constexpr size_t Size() const override;
 
-		Array() : {}
+		
+		Array(const Array<CollType, S>& arr);
+		Array(const std::initializer_list<CollType>& list);
+		~Array() {};
+
+		virtual CollType& operator[](size_t index) override;
+		virtual const CollType& operator[](size_t index) const override;
+
+		//for iterator:
+		/*virtual Iterator begin();
+		virtual Iterator end();*/
 	};
 //
 //		///----------------------------

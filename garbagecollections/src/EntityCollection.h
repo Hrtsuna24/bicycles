@@ -4,40 +4,29 @@
 namespace HTM
 {
 	template<typename CollType>
-	class EntityCollection;
-
-	/*template<typename CollType>
-	using PtrType = EntityCollection<CollType>::CollType*;*/
-
-	template<typename CollType>
 	class EntityCollection
 	{
 	public:
-		// for better understanding types:
-		
-		using PtrType = CollType*;
-		using RefType = CollType&;
-		using iterator = EntityIterator<CollType>;
-
+		// declare smaller type for iterator
+		using VType = CollType;
+		using Iterator = EntityIterator< EntityCollection<CollType> >;
 		///////
 
-		EntityCollection();
-		virtual ~EntityCollection();
+		EntityCollection(); // def in 37line
+		virtual ~EntityCollection(); // def in 42line
 
 		//Size for all coll
-		virtual size_t Size() const = 0;
-		virtual RefType operator[](size_t index) = 0;
-		virtual const RefType operator[](size_t index) const = 0;
+		virtual size_t Size() const { return this->_EC_size; };
+		virtual EntityCollection& operator[](size_t index) = 0;
+		virtual const EntityCollection& operator[](size_t index) const = 0;
 
 		//for iterator:
-		virtual iterator begin() = 0;
-		virtual iterator end() = 0;
-	protected:
-		size_t _EC_size;
-	private:
+		virtual Iterator begin() = 0;
+		virtual Iterator end() = 0;
 		
+	private:
+		size_t _EC_size;
 	};
-
 }
 
 template<typename CollType>

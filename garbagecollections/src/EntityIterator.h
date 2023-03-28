@@ -2,29 +2,32 @@
 
 namespace HTM
 {
-	template<typename CollType>
+	template<typename EntityCollection>
 	class EntityIterator
 	{
-	
-		using VType = CollType;
-		using PType = CollType*;
-		using RType = CollType&;
 
-		PType m_ptr;
 	public:
-		////
-		EntityIterator(PType ptr) : m_ptr(ptr){};
-		~EntityIterator() {};
+		using VType = typename EntityCollection::VType;
+		using PtrType = const VType*;
+		using RefType = const VType&;
 
+		bool operator==(const EntityIterator& b) { return _m_Ptr == b._m_Ptr; };
+		bool operator!=(const EntityIterator& b) { return !(this == b); };
+		EntityIterator& operator++() { ++_m_Ptr; return *this; };
+		EntityIterator operator++(int) {
+			EntityIterator tmp = *this; ++(*this);
+			return tmp;
+		};
 
-		RType operator*() const { return *m_ptr; }
-		PType operator->() { return m_ptr; };
+		RefType operator*() const { return *_m_Ptr; };
+		PtrType operator->() const { return this->_m_Ptr; };
 
-		EntityIterator& operator++() { m_ptr++; return *this; }
-		EntityIterator operator++(int) { EntityIterator tmp = *this; ++(*this); return tmp; }
+		EntityIterator(PtrType m_Ptr) : _m_Ptr(m_Ptr) {};
+		~EntityIterator() {}
 
-		friend bool operator==(const EntityIterator& it1, const EntityIterator& it2) { return it1.m_ptr == it2.m_ptr; }
-		friend bool operator!=(const EntityIterator& it1, const EntityIterator& it2) { return !(it1 == it2); }
-		
+		RefType operator[](size_t index) { return *(_m_Ptr + index); };
+
+	private:
+		PtrType _m_Ptr;
 	};
 }

@@ -6,30 +6,19 @@
 #include "Vector.h"
 #include "Vector.cpp"
 using HTM::Vector;
-
+using std::cout;
 
 int main()
 {
 	TS_LOG("EntityColl and Iter improvment");
 	{
-		Vector<float> Arr{ std::initializer_list<float>{1.f, 2.f, 3.f, 4.f, 5.f } };
-		TS_LOG(Arr.Size());
-		for (const float& val : Arr)
-		{
-			std::cout << val << ' ';
-		}
-		std::cout << '\n';
-		Vector<float>::Iterator iter = Arr.begin();
-		Vector<float>::Iterator ArrEnd = Arr.end();
-		for (
-			;
-			iter != ArrEnd;
-			++iter
-			)
-		{
-			float x = *iter;
-			
-		}
+		Vector<int> Arr;
+		Arr.PushBack(5);
+		Arr.PushBack(5);
+		Arr.Insert(6, 1);
+		Arr.Empty();
+		Arr.Top();
+
 	}
 	return 0;
 }

@@ -16,17 +16,17 @@ namespace HTM
 
 		virtual constexpr size_t Size() const override;
 
-		
+		Array();
 		Array(const Array<CollType, S>& arr);
 		Array(const std::initializer_list<CollType>& list);
-		~Array() {};
+		~Array();
 
 		virtual CollType& operator[](size_t index) override;
 		virtual const CollType& operator[](size_t index) const override;
 
 		//for iterator:
-		/*virtual Iterator begin();
-		virtual Iterator end();*/
+		 Iterator begin() ;
+		 Iterator end() ;
 	};
 //
 //		///----------------------------

@@ -14,6 +14,8 @@ namespace HTM
 	{
 		if (this->Size() == arr.Size())
 		{
+			TS_LOG("Array::Array(const)");
+
 			for(size_t i = 0; i < S; ++i)
 			{ 
 				this->_AR_storage[i] = arr._AR_storage[i];
@@ -32,6 +34,7 @@ namespace HTM
 	{
 		if (S == list.size())
 		{
+			TS_LOG("Array::Array(initializer_list):");
 			for (size_t i = 0; i < S; ++i)
 			{
 				this->_AR_storage[i] = *(list.begin() + i);
@@ -41,6 +44,16 @@ namespace HTM
 		{
 			TS_WAR("Array::Array(const initializer_list&):");
 		}
+	}
+	template<typename CollType, size_t S>
+	Array<CollType, S>::Array()
+	{
+		TS_LOG("Array::Array():");
+	}
+	template<typename CollType, size_t S>
+	Array<CollType, S>::~Array()
+	{
+		TS_LOG("Array::~Array():");
 	}
 	template<typename CollType, size_t S>
 	CollType& Array<CollType, S>::operator[](size_t index) 
@@ -54,7 +67,7 @@ namespace HTM
 	}
 
 
-	/*template<typename CollType, size_t S>
+	template<typename CollType, size_t S>
 	ArrayIterator< Array<CollType, S> > Array<CollType, S>::begin()
 	{
 		return Iterator(this->_AR_storage);
@@ -63,5 +76,5 @@ namespace HTM
 	ArrayIterator< Array<CollType, S> > Array<CollType, S>::end()
 	{
 		return Iterator(this->_AR_storage + S);
-	}*/
+	}
 }

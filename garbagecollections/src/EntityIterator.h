@@ -11,8 +11,8 @@ namespace HTM
 		using PtrType = const VType*;
 		using RefType = const VType&;
 
-		bool operator==(const EntityIterator& b) { return _m_Ptr == b._m_Ptr; };
-		bool operator!=(const EntityIterator& b) { return !(this == b); };
+		virtual bool operator==(const EntityIterator* b) = 0;
+		virtual bool operator!=(const EntityIterator* b) = 0;
 		EntityIterator& operator++() { ++_m_Ptr; return *this; };
 		EntityIterator operator++(int) {
 			EntityIterator tmp = *this; ++(*this);

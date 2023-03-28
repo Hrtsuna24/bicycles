@@ -21,8 +21,8 @@ namespace HTM
 		virtual const CollType& operator[](size_t index) const = 0;
 
 		//for iterator:
-		/*virtual Iterator begin() = 0;
-		virtual Iterator end() = 0;*/
+		/*virtual Iterator begin();
+		virtual Iterator end();*/
 		
 	private:
 		size_t _EC_size;

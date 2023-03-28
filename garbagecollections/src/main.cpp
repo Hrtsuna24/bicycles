@@ -3,24 +3,24 @@
 //#include "Vector.h"
 //using HTM::Vector;
 
-#include "Array.h"
-#include "Array.cpp"
-using HTM::Array;
+#include "Vector.h"
+#include "Vector.cpp"
+using HTM::Vector;
 
 
 int main()
 {
 	TS_LOG("EntityColl and Iter improvment");
 	{
-		Array<float, 5> Arr{ 1, 2, 3, 4, 5 };
+		Vector<float> Arr{ std::initializer_list<float>{1.f, 2.f, 3.f, 4.f, 5.f } };
 		TS_LOG(Arr.Size());
 		for (const float& val : Arr)
 		{
 			std::cout << val << ' ';
 		}
 		std::cout << '\n';
-		Array<float, 5>::Iterator iter = Arr.begin();
-		Array<float, 5>::Iterator ArrEnd = Arr.end();
+		Vector<float>::Iterator iter = Arr.begin();
+		Vector<float>::Iterator ArrEnd = Arr.end();
 		for (
 			;
 			iter != ArrEnd;
@@ -31,9 +31,5 @@ int main()
 			
 		}
 	}
-
-
-	const int& arr = 5;
-	int& arr2 = (int&)5;
 	return 0;
 }

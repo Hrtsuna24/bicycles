@@ -1,78 +1,71 @@
 #pragma once
 #include "EntityCollection.h"
+#include "VectorIterator.h"
 
 namespace HTM
 {
 	template<class CollType>
-	class Vector : protected EntityCollection<CollType>
+	class Vector : public EntityCollection<CollType>
 	{
-		using PtrType = CollType*;
-		using RefType = CollType&;
-		using iterator = EntityIterator<CollType>;
-
-		PtrType _V_Storage;
+		CollType* _V_Storage;
 		size_t _V_Capasity;
 
-		//
-		void ChangeCapasity()
-		{
-			if (this->_EC_size >= this->_V_Capasity)
-			{
-				this->_V_Capasity += this->_EC_size >> 1;
-			}
-		}
-
 	public:
+		using VType = CollType;
+		using Iterator = VectorIterator< Vector<CollType> >;
+
 		Vector();
+		Vector(size_t Size);
+		Vector(const std::initializer_list<CollType>& list);
 		~Vector();
 
-		size_t Size() const
+		bool Empty() const
 		{
-			return this->_EC_size;
+			return this->_EC_size == 0;
 		}
 
-		RefType operator[](size_t index)
+		CollType& operator[](size_t index)
 		{
 			CheckIndex(index, this->_EC_size);
 			return this->_V_Storage[index];
 		}
 
-		const RefType operator[](size_t index) const
+		const CollType& operator[](size_t index) const
 		{
 			CheckIndex(index, this->_EC_size);
 			return this->_V_Storage[index];
 		}
 
 		//for iterator:
-		iterator begin()
-		{
-			return this->_V_Storage;
-		}
+		Iterator begin();
+		Iterator end();
 
-		iterator end()
-		{
-			return &(this->_V_Storage[this->_EC_size]);
-		}
 		/// vec methods
-		void PushBack(CollType value)
+		void PushBack(const CollType& value)
 		{
-			//
-			this->_V_Storage[this->_EC_size++] = value;
+			if (this->_EC_size < _V_Capasity)
+			{
+				this->_V_Storage[this->_EC_size++] = value;
+			}
+			else
+			{
+				// replace vector:
+
+			}
+		}
+		CollType& PopBack()
+		{
+			if (this->_EC_size > 0)
+			{
+				return _V_Storage[this->_EC_size--];
+			}
+			else
+			{
+				//chech if vectror isEmpty:
+				TS_Error("Vector::PopBack when Size <= 0");
+			}
 		}
 	};
 
 	/// 
-	template<class CollType>
-	inline Vector<CollType>::Vector() 		
-	{
-		this->_EC_size = 0;
-		this->_V_Capasity = 5;
-		this->_V_Storage = new CollType [this->_V_Capasity];
-	}
-
-	template<class CollType>
-	inline Vector<CollType>::~Vector()
-	{
-		delete[]this->_V_Storage;
-	}
 }

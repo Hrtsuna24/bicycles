@@ -26,7 +26,7 @@ namespace HTM
 		virtual Iterator end();*/
 		
 	protected:
-		size_t _EC_size;
+		size_t _EC_size = 0;
 	};
 }
 

@@ -14,7 +14,7 @@ namespace HTM
 		using ValType = typename LinkedList::ValType; //typename Array::VType;
 		using PtrType = const ValType*;
 		using RefType = const ValType&;
-
+		LLIterator(PtrType ptr) : EntityIterator(ptr) {};
 		
 	};
 }

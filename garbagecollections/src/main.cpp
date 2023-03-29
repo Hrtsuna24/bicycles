@@ -12,6 +12,10 @@ int main()
 {
 	TS_LOG("EntityColl and Iter improvment");
 	{
+		LinkedList<std::string> list;
+		list.AddBack("Danylo");
+		list.AddBack("Anya");
+		auto x = list[1];
 	}
 	return 0;
 }

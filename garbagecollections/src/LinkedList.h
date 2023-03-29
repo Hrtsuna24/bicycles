@@ -16,18 +16,27 @@ namespace HTM
 	class LinkedList :
 		public EntityCollection<CollType>
 	{
-		Node<CollType> _LL_Node;
+		Node<CollType>* _LL_Head, *_LL_Tail;;
 
+
+		void TailCheck();
 	public:
 		/// 
-		using ValType = CollType;
+		using ValType = Node<CollType>;
 		using Iterator = LLIterator< LinkedList<CollType> >;
 		/// 
-		LinkedList();
+		LinkedList() : _LL_Head(nullptr), _LL_Tail(nullptr) {};
 		~LinkedList();
 		LinkedList(const LinkedList&);
 
-		void Add(const LinkedList&);
+		Node<CollType>* CreateNode(const CollType& data);
+		void AddBack(const CollType& data);
+		void AddFront(const CollType& data);
+
+		virtual CollType& operator[](size_t index);
+		virtual const CollType& operator[](size_t index) const;
+		virtual void Clear();
+		//for iterator:
 	};
 }
 

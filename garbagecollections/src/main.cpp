@@ -15,7 +15,16 @@ int main()
 		LinkedList<std::string> list;
 		list.AddBack("Danylo");
 		list.AddBack("Anya");
-		auto x = list[1];
+		list.AddBack("Oleh");
+		list.AddFront("Oleh");
+		list.AddBack("Max");
+		list.SubBack();
+		list.SubFront();
+
+		std::string str = list.Back();
+		str = list.Front();
+		auto x = list[2];
+		LinkedList<std::string> listcopy(list);
 	}
 	return 0;
 }

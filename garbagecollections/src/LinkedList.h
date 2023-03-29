@@ -19,7 +19,8 @@ namespace HTM
 		Node<CollType>* _LL_Head, *_LL_Tail;;
 
 
-		void TailCheck();
+		
+		void Link(Node<CollType>* currNode); // connect two nodes
 	public:
 		/// 
 		using ValType = Node<CollType>;
@@ -33,9 +34,16 @@ namespace HTM
 		void AddBack(const CollType& data);
 		void AddFront(const CollType& data);
 
+
+		void SubBack();
+		void SubFront();
+
+		CollType Back();
+		CollType Front();
+
 		virtual CollType& operator[](size_t index);
 		virtual const CollType& operator[](size_t index) const;
-		virtual void Clear();
+		virtual void Clear() override;
 		//for iterator:
 	};
 }

@@ -15,13 +15,20 @@ int main()
 		LinkedList<std::string> list;
 		list.AddBack("Node1");
 		list.AddBack("Node2");
+		list.AddBack("Node3");
 		list.AddBack("Node4");
-		list.InsertAt(2, "Node3");
-		list.DeleteAt(2);
-		for (size_t i = 0; i < list.Size(); ++i)
+		list.AddBack("Node5");
+		list.AddBack("Node9");
+		list.AddBack("Node8");
+		list.AddBack("Node7");
+		list.AddBack("Node6");
+		
+		list.RevertAfter(5);
+		for (auto& elem : list)
 		{
-			std::string x = list[i];
+			std::cout << elem._N_data << ' ';
 		}
+		std::cout << '\n';
 	}
 	return 0;
 }

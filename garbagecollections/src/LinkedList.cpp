@@ -6,8 +6,8 @@ namespace HTM
 	template<class CollType>
 	void LinkedList<CollType>::Link(Node<CollType>* currNode)
 	{
-		this->_LL_Tail->_N_next = CreateNode(currNode->_N_data);
-		this->_LL_Tail = this->_LL_Tail->_N_next;
+		this->_LL_Head->_N_next = CreateNode(currNode->_N_data);
+		this->_LL_Head = this->_LL_Head->_N_next;
 	}
 
 
@@ -26,14 +26,17 @@ namespace HTM
 		if (currNode) // set head and tail
 		{
 			this->_LL_Head = CreateNode(currNode->_N_data);
-			this->_LL_Tail = this->_LL_Head;
 			currNode = currNode->_N_next;
 		}
+
+		Node<CollType>* Head = this->_LL_Head;
 		while (currNode) //build list till could
 		{
+
 			this->Link(currNode);
 			currNode = currNode->_N_next;
 		}
+		this->_LL_Head = Head;
 	}
 
 
@@ -252,24 +255,37 @@ namespace HTM
 			PrevNode = this->_LL_Head;
 			this->_LL_Head = NextNode;
 		}
-		this->_LL_Head = this->_LL_Tail;
-
-		//set tail to the new end of the list
-		while (this->_LL_Tail->_N_next)
-		{
-			this->_LL_Tail = this->_LL_Tail->_N_next;
-		}
+		this->_LL_Head = PrevNode;
 	}
 	template<class CollType>
 	void LinkedList<CollType>::RevertAfter(size_t index)
 	{
-		while (index)
+		Node<CollType>* Head = this->_LL_Head;
+		if (!this->_LL_Head)
 		{
-			if (!this->_LL_Head && (index))
+			TS_Error("LinkedList<CollType>::RevertAfter(size_t index) in empty list");
+		}
+		else
+		{
+			Node<CollType>* PrevNode = nullptr; //prev node of firstToLast elem
+			while (index-- && this->_LL_Head->_N_next)
 			{
-
+				PrevNode = this->_LL_Head;
+				this->_LL_Head = this->_LL_Head->_N_next;
 			}
-			index--;
+			if (!index)
+			{
+				TS_Error("LinkedList<CollType>::RevertAfter(size_t index) index > list.size()");
+				this->_LL_Head = Head;
+				return;
+			}
+			this->Revert();
+			if (PrevNode)
+			{
+				PrevNode->_N_next = this->_LL_Head;
+				this->_LL_Head = Head;
+			}
+			
 		}
 	}
 

@@ -15,19 +15,19 @@ namespace HTM
 
 	template<class CollType>
 	class LinkedList :
-		public EntityCollection<CollType>
+		private EntityCollection<CollType>
 	{
-		Node<CollType>* _LL_Head, *_LL_Tail;;
-
+		Node<CollType>* _LL_Head;
 
 		
 		void Link(Node<CollType>* currNode); // connect two nodes
+		Node<CollType>* MoveToElemBeforeLast();//return element before the last
 	public:
 		/// 
 		using ValType = Node<CollType>;
 		using Iterator = LLIterator< LinkedList<CollType> >;
 		/// 
-		LinkedList() : _LL_Head(nullptr), _LL_Tail(nullptr) {};
+		LinkedList() : _LL_Head(nullptr) {};
 		~LinkedList();
 		LinkedList(const LinkedList&);
 
@@ -52,6 +52,9 @@ namespace HTM
 		Iterator end();
 
 		Iterator Find(const CollType&);
+
+		void Revert();
+		void RevertAfter(size_t index);
 	};
 }
 

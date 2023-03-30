@@ -21,7 +21,6 @@ namespace HTM
 	template<class CollType>
 	LinkedList<CollType>::LinkedList(const LinkedList& other)
 	{
-		this->_EC_size = other._EC_size;
 		Node<CollType>* currNode;
 		currNode = other._LL_Head;
 		if (currNode) // set head and tail
@@ -51,20 +50,20 @@ namespace HTM
 	template<class CollType>
 	void LinkedList<CollType>::AddBack(const CollType& data)
 	{
-		// create Node
-		if (!this->_LL_Head) // if curr list is Empty
+		if (!this->_LL_Head)
 		{
 			this->_LL_Head = CreateNode(data);
-			this->_LL_Tail = this->_LL_Head; // set h and t to curr node(one)
+			return;
 		}
-		else //if list has one or more nodes
+		else if (!this->_LL_Head->_N_next)
 		{
-			//create node and link it to the end of the list
-			this->_LL_Tail->_N_next = CreateNode(data);
-			// end t must have addres of last elem
-			this->_LL_Tail = this->_LL_Tail->_N_next;
+			this->_LL_Head->_N_next = CreateNode(data);
+			return;
 		}
-		this->_EC_size++;
+		else
+		{
+			MoveToElemBeforeLast()->_N_next->_N_next = CreateNode(data);
+		}
 	}
 
 	template<class CollType>
@@ -84,42 +83,54 @@ namespace HTM
 			// end H->next must have addres of prev start
 			this->_LL_Head->_N_next = tmp;
 		}
-		this->_EC_size++;
 	}
 
 	template<class CollType>
 	void LinkedList<CollType>::SubBack()
 	{
-		// check if empty
-		CheckIndex(0, this->_EC_size);
-
-		//set pointer to the last elem
-		Node<CollType>* LastElem = this->_LL_Tail;
-		//delete the last node
-		this->_LL_Tail->_N_data.~CollType();
-		delete this->_LL_Tail;
-		this->_EC_size--;
-		// end t must have addres of last elem
-		this->_LL_Tail = this->_LL_Head;
-		while (LastElem != _LL_Tail->_N_next)
+		Node<CollType>* LastElem;
+		// go to the elem before last via Mover ptr
+		if (!this->_LL_Head)
 		{
-			this->_LL_Tail = this->_LL_Tail->_N_next;
+			TS_Error("LinkedList::SubBack - delete from empry list");
+			return;
 		}
-		this->_LL_Tail->_N_next = nullptr;
+		if (!this->_LL_Head->_N_next)
+		{
+			LastElem = this->_LL_Head;
+			LastElem->_N_data.~CollType();
+			delete LastElem;
+			return;
+		}
+		Node<CollType>*Mover = this->MoveToElemBeforeLast();
+		//set pointer to the last elem
+		LastElem = Mover->_N_next;
+		// Last elem point to the null
+		Mover->_N_next = nullptr;
+		//delete the last node
+		LastElem->_N_data.~CollType();
+		delete LastElem;
 	}
 
 	template<class CollType>
 	void LinkedList<CollType>::SubFront()
 	{
 		// check if empty
-		CheckIndex(0, this->_EC_size);
-
-
+		if (!this->_LL_Head)
+		{
+			TS_Error("LinkedList::SubFront - delete from empry list");
+			return;
+		}
+		if (!this->_LL_Head->_N_next)
+		{
+			this->_LL_Head->_N_data.~CollType();
+			delete this->_LL_Head;
+			return;
+		}
 		Node<CollType>* SecondToFirstElem = this->_LL_Head->_N_next;
 		this->_LL_Head->_N_data.~CollType();
 		delete this->_LL_Head;
 		this->_LL_Head = SecondToFirstElem;
-		this->_EC_size--;
 	}
 
 
@@ -146,7 +157,6 @@ namespace HTM
 			}
 		}
 		Mover->_N_next = CreateNode(data, Mover->_N_next);
-		this->_EC_size++;
 	}
 
 	template<class CollType>
@@ -156,32 +166,19 @@ namespace HTM
 		{
 			this->SubFront();
 		}
-		else if ( this->_EC_size - posfromHead == 1)
-		{
-			this->SubBack();
+		if (!this->_LL_Head) {
+			TS_Error("LinkedList::DeleteAt - try delete elem in empty list");
+			return;
 		}
-		else
+		Node<CollType>* Mover = this->_LL_Head;
+		size_t i = 1;
+		while (Mover && (i++ < posfromHead))
 		{
-			Node<CollType>* Mover = this->_LL_Head;
-			size_t i = 1; // 1 - head, 2 - to stop on elem before posfromHead
-			while (i < posfromHead) {
-				if (Mover->_N_next)
-				{
-					Mover = Mover->_N_next;
-					i++;
-				}
-				else
-				{
-					TS_Error("LinkedList::InsertAt::Node[posfromHead] does not exist");
-				}
-			}
-			//Mover is set on elem before deleted
-			Node<CollType>* ElemToDelete = Mover->_N_next;
-			Mover->_N_next = ElemToDelete->_N_next; // set next addres on elem after deleted
-			ElemToDelete->_N_data.~CollType();
-			delete ElemToDelete;
-			this->_EC_size--;
+			Mover = Mover->_N_next;
 		}
+		Mover->_N_next->_N_data.~CollType();
+		delete Mover->_N_next;
+		Mover->_N_next = nullptr;
 	}
 
 	template<class CollType>
@@ -194,31 +191,15 @@ namespace HTM
 	CollType& LinkedList<CollType>::operator[](size_t index)
 	{
 		// TODO: insert return statement here
-		if (index >= this->_EC_size)
-		{
-			TS_Error("LinkedList<CollType>::operator[]::index out of range");
-		}
-		Node<CollType>* tmp = this->_LL_Head;
-		for (size_t i = 0; i < index; i++)
-		{
-			tmp = tmp->_N_next;
-		}
-		return tmp->_N_data;
+		
+		return this->_LL_Head->_N_data;
 	}
 	template<class CollType>
 	const CollType& LinkedList<CollType>::operator[](size_t index) const
 	{
 		// TODO: insert return statement here
-		if (index > this->_EC_size)
-		{
-			TS_Error("LinkedList<CollType>::operator[]::index out of range");
-		}
-		Node<CollType>* tmp = this->_LL_Head;
-		for (size_t i = 0; i < index; i++)
-		{
-			tmp = tmp->_N_next;
-		}
-		return tmp->_N_data;
+		return this->_LL_Head->_N_data;
+		
 	}
 	template<class CollType>
 	void LinkedList<CollType>::Clear() //Delete list
@@ -255,6 +236,57 @@ namespace HTM
 			if (!Mover)
 			{
 				break;
+			}
+		}
+		return Mover;
+	}
+	template<class CollType>
+	void LinkedList<CollType>::Revert()
+	{
+		Node<CollType>* PrevNode = nullptr; //prev node of firstToLast elem
+		Node<CollType>* NextNode; //second elem
+		while (this->_LL_Head)
+		{
+			NextNode = this->_LL_Head->_N_next;
+			this->_LL_Head->_N_next = PrevNode;
+			PrevNode = this->_LL_Head;
+			this->_LL_Head = NextNode;
+		}
+		this->_LL_Head = this->_LL_Tail;
+
+		//set tail to the new end of the list
+		while (this->_LL_Tail->_N_next)
+		{
+			this->_LL_Tail = this->_LL_Tail->_N_next;
+		}
+	}
+	template<class CollType>
+	void LinkedList<CollType>::RevertAfter(size_t index)
+	{
+		while (index)
+		{
+			if (!this->_LL_Head && (index))
+			{
+
+			}
+			index--;
+		}
+	}
+
+	template<class CollType>
+	Node<CollType>* LinkedList<CollType>::MoveToElemBeforeLast()
+	{
+		// go to the elem before last via Mover ptr
+		Node<CollType>* Mover = this->_LL_Head;
+		if (!(Mover && Mover->_N_next))
+		{
+			return nullptr;
+		}
+		else
+		{
+			while (Mover->_N_next->_N_next)
+			{
+				Mover = Mover->_N_next;
 			}
 		}
 		return Mover;

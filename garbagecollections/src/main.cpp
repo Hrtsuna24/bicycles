@@ -13,18 +13,15 @@ int main()
 	TS_LOG("EntityColl and Iter improvment");
 	{
 		LinkedList<std::string> list;
-		list.AddBack("Danylo");
-		list.AddBack("Anya");
-		list.AddBack("Oleh");
-		list.AddFront("Oleh");
-		list.AddBack("Max");
-		list.SubBack();
-		list.SubFront();
-
-		std::string str = list.Back();
-		str = list.Front();
-		auto x = list[2];
-		LinkedList<std::string> listcopy(list);
+		list.AddBack("Node1");
+		list.AddBack("Node2");
+		list.AddBack("Node4");
+		list.InsertAt(2, "Node3");
+		list.DeleteAt(2);
+		for (size_t i = 0; i < list.Size(); ++i)
+		{
+			std::string x = list[i];
+		}
 	}
 	return 0;
 }

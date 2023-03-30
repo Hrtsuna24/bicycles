@@ -39,10 +39,11 @@ namespace HTM
 
 
 	template<class CollType>
-	Node<CollType>* LinkedList<CollType>::CreateNode(const CollType& data)
+	Node<CollType>* LinkedList<CollType>::CreateNode(const CollType& data, Node<CollType>* next)
 	{
 		Node<CollType>* tmpnode = new Node<CollType>;
 		tmpnode->_N_data = data;
+		tmpnode->_N_next = next;
 		return tmpnode;
 	}
 
@@ -123,13 +124,57 @@ namespace HTM
 
 
 	template<class CollType>
-	CollType LinkedList<CollType>::Front()
+	CollType& LinkedList<CollType>::Front()
 	{
 		return this->_LL_Head->_N_data;
 	}
 
 	template<class CollType>
-	CollType LinkedList<CollType>::Back()
+	void LinkedList<CollType>::InsertAt(size_t posfromHead, const CollType& data)
+	{
+		Node<CollType>* Mover = this->_LL_Head;
+		size_t i = 1; // 1 - head, 2 - to stop on elem before posfromHead
+		while (i < posfromHead) {
+			if (Mover->_N_next)
+			{
+				Mover = Mover->_N_next;
+				i++;
+			}
+			else
+			{
+				TS_Error("LinkedList::InsertAt::Node[posfromHead] does not exist");
+			}
+		}
+		Mover->_N_next = CreateNode(data, Mover->_N_next);
+		this->_EC_size++;
+	}
+
+	template<class CollType>
+	void LinkedList<CollType>::DeleteAt(size_t posfromHead)
+	{
+		Node<CollType>* Mover = this->_LL_Head;
+		size_t i = 1; // 1 - head, 2 - to stop on elem before posfromHead
+		while (i < posfromHead) {
+			if (Mover->_N_next)
+			{
+				Mover = Mover->_N_next;
+				i++;
+			}
+			else
+			{
+				TS_Error("LinkedList::InsertAt::Node[posfromHead] does not exist");
+			}
+		}
+		//Mover is set on elem before deleted
+		Node<CollType>* ElemToDelete = Mover->_N_next;
+		Mover->_N_next = ElemToDelete->_N_next; // set next addres on elem after deleted
+		ElemToDelete->_N_data.~CollType();
+		delete ElemToDelete;
+		this->_EC_size--;
+	}
+
+	template<class CollType>
+	CollType& LinkedList<CollType>::Back()
 	{
 		return this->_LL_Tail->_N_data;
 	}

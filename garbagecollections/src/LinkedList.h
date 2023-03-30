@@ -30,7 +30,7 @@ namespace HTM
 		~LinkedList();
 		LinkedList(const LinkedList&);
 
-		Node<CollType>* CreateNode(const CollType& data);
+		Node<CollType>* CreateNode(const CollType& data, Node<CollType>* next = nullptr);
 		void AddBack(const CollType& data);
 		void AddFront(const CollType& data);
 
@@ -38,8 +38,10 @@ namespace HTM
 		void SubBack();
 		void SubFront();
 
-		CollType Back();
-		CollType Front();
+		CollType& Back();
+		CollType& Front();
+		void InsertAt(size_t posfromHead, const CollType& data);
+		void DeleteAt(size_t posfromHead);
 
 		virtual CollType& operator[](size_t index);
 		virtual const CollType& operator[](size_t index) const;

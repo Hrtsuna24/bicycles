@@ -222,4 +222,15 @@ namespace HTM
 			Curr = Next;
 		}
 	}
+	template<class CollType>
+	LLIterator< LinkedList<CollType> > LinkedList<CollType>::begin()
+	{
+		return LLIterator<LinkedList<CollType> >(this->_LL_Head);
+	}
+
+	template<class CollType>
+	LLIterator< LinkedList<CollType> > LinkedList<CollType>::end()
+	{
+		return nullptr;
+	}
 }

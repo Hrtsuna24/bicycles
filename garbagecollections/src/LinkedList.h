@@ -1,6 +1,7 @@
 #pragma once
 #include "EntityCollection.h"
 #include "LLIterator.h"
+#include "LLIterator.cpp"
 
 namespace HTM
 {
@@ -47,6 +48,8 @@ namespace HTM
 		virtual const CollType& operator[](size_t index) const;
 		virtual void Clear() override;
 		//for iterator:
+		Iterator begin();
+		Iterator end();
 	};
 }
 

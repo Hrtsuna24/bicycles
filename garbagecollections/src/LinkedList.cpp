@@ -93,17 +93,17 @@ namespace HTM
 		// check if empty
 		CheckIndex(0, this->_EC_size);
 
+		//set pointer to the last elem
+		Node<CollType>* LastElem = this->_LL_Tail;
 		//delete the last node
 		this->_LL_Tail->_N_data.~CollType();
 		delete this->_LL_Tail;
 		this->_EC_size--;
 		// end t must have addres of last elem
 		this->_LL_Tail = this->_LL_Head;
-		size_t i = 1;
-		while (i < this->_EC_size)
+		while (LastElem != _LL_Tail->_N_next)
 		{
 			this->_LL_Tail = this->_LL_Tail->_N_next;
-			i++;
 		}
 		this->_LL_Tail->_N_next = nullptr;
 	}
@@ -152,25 +152,36 @@ namespace HTM
 	template<class CollType>
 	void LinkedList<CollType>::DeleteAt(size_t posfromHead)
 	{
-		Node<CollType>* Mover = this->_LL_Head;
-		size_t i = 1; // 1 - head, 2 - to stop on elem before posfromHead
-		while (i < posfromHead) {
-			if (Mover->_N_next)
-			{
-				Mover = Mover->_N_next;
-				i++;
-			}
-			else
-			{
-				TS_Error("LinkedList::InsertAt::Node[posfromHead] does not exist");
-			}
+		if (!posfromHead)
+		{
+			this->SubFront();
 		}
-		//Mover is set on elem before deleted
-		Node<CollType>* ElemToDelete = Mover->_N_next;
-		Mover->_N_next = ElemToDelete->_N_next; // set next addres on elem after deleted
-		ElemToDelete->_N_data.~CollType();
-		delete ElemToDelete;
-		this->_EC_size--;
+		else if ( this->_EC_size - posfromHead == 1)
+		{
+			this->SubBack();
+		}
+		else
+		{
+			Node<CollType>* Mover = this->_LL_Head;
+			size_t i = 1; // 1 - head, 2 - to stop on elem before posfromHead
+			while (i < posfromHead) {
+				if (Mover->_N_next)
+				{
+					Mover = Mover->_N_next;
+					i++;
+				}
+				else
+				{
+					TS_Error("LinkedList::InsertAt::Node[posfromHead] does not exist");
+				}
+			}
+			//Mover is set on elem before deleted
+			Node<CollType>* ElemToDelete = Mover->_N_next;
+			Mover->_N_next = ElemToDelete->_N_next; // set next addres on elem after deleted
+			ElemToDelete->_N_data.~CollType();
+			delete ElemToDelete;
+			this->_EC_size--;
+		}
 	}
 
 	template<class CollType>
@@ -232,5 +243,20 @@ namespace HTM
 	LLIterator< LinkedList<CollType> > LinkedList<CollType>::end()
 	{
 		return nullptr;
+	}
+
+	template<class CollType>
+	LLIterator< LinkedList<CollType> > LinkedList<CollType>::Find(const CollType& ToFind)
+	{
+		Node<CollType>* Mover = this->_LL_Head;
+		while (Mover->_N_data != ToFind)
+		{
+			Mover = Mover->_N_next;
+			if (!Mover)
+			{
+				break;
+			}
+		}
+		return Mover;
 	}
 }

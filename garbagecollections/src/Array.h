@@ -24,6 +24,7 @@ namespace HTM
 		virtual CollType& operator[](size_t index) override;
 		virtual const CollType& operator[](size_t index) const override;
 
+		virtual void Clear() override;
 		//for iterator:
 		 Iterator begin() ;
 		 Iterator end() ;

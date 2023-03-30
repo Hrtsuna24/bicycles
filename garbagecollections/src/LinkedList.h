@@ -50,6 +50,8 @@ namespace HTM
 		//for iterator:
 		Iterator begin();
 		Iterator end();
+
+		Iterator Find(const CollType&);
 	};
 }
 

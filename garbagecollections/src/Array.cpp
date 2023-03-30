@@ -66,6 +66,15 @@ namespace HTM
 		return this->_AR_storage[index];
 	}
 
+	template<typename CollType, size_t S>
+	void Array<CollType, S>::Clear()
+	{
+		for (CollType& elem : this->_AR_storage)
+		{
+			elem.~CollType();
+		}
+	}
+
 
 	template<typename CollType, size_t S>
 	ArrayIterator< Array<CollType, S> > Array<CollType, S>::begin()

@@ -8,7 +8,7 @@ namespace HTM
 	class LLIterator/* : public EntityIterator<LinkedList>*/
 	{
 	public:
-		using ValType = typename LinkedList::ValType; //typename Array::VType;
+		using ValType = typename LinkedList::ValType;
 		using PtrType = const ValType*;
 		using RefType = const ValType&;
 

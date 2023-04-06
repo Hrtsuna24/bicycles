@@ -5,24 +5,32 @@
 namespace HTM
 {
 	template<class CollType>
-	class Vector : public EntityCollection<CollType>
+	class vEctOr : protected EntityCollection<CollType>
 	{
 		CollType* _V_Storage;
-		size_t _V_Capasity;
+		size_t _V_Capasity, _EC_size;
 
 		void ReAlloc(size_t);
 	public:
 		using VType = CollType;
-		using Iterator = VectorIterator< Vector<CollType> >;
+		using Iterator = VectorIterator< vEctOr<CollType> >;
 
-		Vector();
-		Vector(size_t Size);
-		Vector(const std::initializer_list<CollType>& list);
-		~Vector();
+		vEctOr();
+		explicit vEctOr(size_t Size);
+		vEctOr(const std::initializer_list<CollType>& list);
+		~vEctOr();
 
-		CollType& operator[](size_t index);
+		//Copy & Assignment
+		vEctOr(const vEctOr&);
+		vEctOr& operator=(const vEctOr&);
 
-		const CollType& operator[](size_t index) const;
+		//Move Const & move Assignment
+		vEctOr(vEctOr&&);
+		vEctOr& operator=(vEctOr&&);
+
+		CollType& operator[](size_t index) override;
+
+		const CollType& operator[](size_t index) const override;
 
 		//for iterator:
 		Iterator begin();
@@ -31,9 +39,12 @@ namespace HTM
 		/// vec methods
 		void PushBack(const CollType& value);
 		void Insert(const CollType& value, size_t position);
+		void Reserve(size_t newSize);
+		void Resize(size_t newSize);
+		CollType Capasity() { return this->_V_Capasity; };
 
 		CollType Top();
 		void PopBack();
-		virtual void Clear() override;
+		void Clear() override;
 	};
 }

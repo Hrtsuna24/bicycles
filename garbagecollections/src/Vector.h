@@ -4,7 +4,7 @@
 
 namespace HTM
 {
-	template<class CollType>
+	template<class CollType >
 	class vEctOr : protected EntityCollection<CollType>
 	{
 		CollType* _V_Storage;

@@ -12,9 +12,6 @@ namespace HTM
 		using Iterator = EntityIterator< EntityCollection<CollType> >;
 		///////
 
-		EntityCollection(); // def in 37line
-		virtual ~EntityCollection(); // def in 42line
-
 		//Size for all coll
 		virtual size_t Size() const { return this->_EC_size; };
 		virtual bool Empty() const { return this->_EC_size == 0; };
@@ -28,16 +25,4 @@ namespace HTM
 	protected:
 		size_t _EC_size = 0;
 	};
-}
-
-template<typename CollType>
-inline HTM::EntityCollection<CollType>::EntityCollection()
-{
-	TS_LOG("EntityCollection()");
-}
-
-template<typename CollType>
-inline HTM::EntityCollection<CollType>::~EntityCollection()
-{
-	TS_LOG("~EntityCollection()");
 }
